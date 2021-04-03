@@ -49,20 +49,20 @@
 
 ### Association
 
-- has_one :shipping_adress
+- has_one :shipping_address
 - belongs_to :user
 - belongs_to :item
 
 
 
-## shipping_adressesテーブル
+## shipping_addressesテーブル
 
 | Column        | Type       | Options                        |
 | ------------  | ---------- | ------------------------------ |
 | postal_code   | string     | null: false                    |
 | prefecture_id | integer    | null: false                    |
 | city          | string     | null: false                    |
-| adresses      | string     | null: false                    |
+| address       | string     | null: false                    |
 | building      | string     |                                |
 | phone_number  | string     | null: false                    |
 | order         | references | null: false, foreign_key: true |
