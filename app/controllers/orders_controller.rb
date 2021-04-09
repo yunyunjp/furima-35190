@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
     if @order_shipping_address.valid?
       pay_item
       @order_shipping_address.save
+      binding.pry
       redirect_to root_path
     else
       render :index
@@ -28,7 +29,7 @@ class OrdersController < ApplicationController
   end
 
   def  pay_item
-    Payjp.api_key = "sk_test_d7d906b20fbaa0b283356755"  
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  
     Payjp::Charge.create(
       amount: @item.price,
       card: order_params[:token],
