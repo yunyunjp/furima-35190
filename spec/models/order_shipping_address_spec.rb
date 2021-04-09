@@ -13,6 +13,10 @@ RSpec.describe OrderShippingAddress, type: :model do
       it 'すべての値が正しく入力されていれば購入できること' do
         expect(@order_shipping_address).to be_valid
       end
+      it 'buildingは空でも購入できること' do
+        @order_shipping_address.building = ""
+        expect(@order_shipping_address).to be_valid
+      end
     end
 
     context '内容に問題がある場合' do
@@ -41,10 +45,6 @@ RSpec.describe OrderShippingAddress, type: :model do
         @order_shipping_address.valid?
         expect(@order_shipping_address.errors.full_messages).to include("Address can't be blank")
       end
-      it 'buildingは空でも購入できること' do
-        @order_shipping_address.building = ""
-        expect(@order_shipping_address).to be_valid
-      end
       it 'phone_numberが空だと購入できないこと' do
         @order_shipping_address.phone_number = ""
         @order_shipping_address.valid?
@@ -59,6 +59,16 @@ RSpec.describe OrderShippingAddress, type: :model do
         @order_shipping_address.token = nil
         @order_shipping_address.valid?
         expect(@order_shipping_address.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'ユーザーのidが存在しない場合購入できないこと' do
+        @order_shipping_address.user_id = ""
+        @order_shipping_address.valid?
+        expect(@order_shipping_address.errors.full_messages).to include("User can't be blank")
+      end
+      it '商品のidが存在しない場合購入できないこと' do
+        @order_shipping_address.item_id = ""
+        @order_shipping_address.valid?
+        expect(@order_shipping_address.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
