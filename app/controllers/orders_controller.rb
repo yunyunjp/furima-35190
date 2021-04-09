@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item
+  before_action :move_to_index
 
   def index
     @order_shipping_address = OrderShippingAddress.new
@@ -11,7 +12,6 @@ class OrdersController < ApplicationController
     if @order_shipping_address.valid?
       pay_item
       @order_shipping_address.save
-      binding.pry
       redirect_to root_path
     else
       render :index
@@ -35,5 +35,16 @@ class OrdersController < ApplicationController
       card: order_params[:token],
       currency: 'jpy'
     )
+  end
+  
+  def move_to_index
+
+    if current_user.id == @item.user_id
+      redirect_to action: :index
+    end
+
+    if user_signed_in? && @item.order.present?
+      redirect_to action: :index
+    end
   end  
 end
